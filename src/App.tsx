@@ -1,16 +1,21 @@
 import {Demo} from "./demo/Demo.tsx";
+import i18n from "i18next";
+
+const languages = ['en', 'zh']
 
 function App() {
 
     return (
         <>
-            <div onClick={(e: any) => {
-                localStorage.setItem('i18Lng', e.target.value);
+            <select defaultValue={i18n.resolvedLanguage} onChange={async (evt) => {
+                await i18n.changeLanguage(evt.target.value)
                 window.location.reload()
             }}>
-                <input name={'lang'} checked={localStorage.getItem('i18Lng') === 'zh'} type="radio" value={'zh'}/>
-                <input name={'lang'} checked={localStorage.getItem('i18Lng') === 'en'} type="radio" value={'en'}/>
-            </div>
+                {languages.map((lng) => (
+                    <option key={lng} value={lng} label={lng}
+                            style={{fontWeight: i18n.resolvedLanguage === lng ? 'bolder' : 'normal'}}/>
+                ))}
+            </select>
             <Demo/>
         </>
     )
