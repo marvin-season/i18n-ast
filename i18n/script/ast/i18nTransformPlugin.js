@@ -12,7 +12,6 @@ export const i18nTransformPlugin = {
     run: ({ast, config}) => {
         const chineseCollections = [];
         const stringSets = new Set();
-        // const assignmentExpression = {};
 
         traverse.default(ast, {
             TSEnumMember(path) {
@@ -20,10 +19,6 @@ export const i18nTransformPlugin = {
             },
             StringLiteral(path) {
                 const {parent, node} = path;
-                // if(parent.type === 'AssignmentExpression') {
-                //     assignmentExpression[parent.left.property.name] = node.value;
-                // }
-
                 if (!['LogicalExpression', 'ConditionalExpression', 'JSXExpressionContainer'].includes(parent.type)) {
                     path.skip();
                     return
@@ -31,7 +26,6 @@ export const i18nTransformPlugin = {
 
                 if (includesChinese(node.value)) {
                     if (t.isJSXAttribute(parent)) {
-                        // path.skip()
                         // 转换成string
                         path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
                         return
@@ -50,7 +44,6 @@ export const i18nTransformPlugin = {
                         }
 
                         path.replaceWithSourceString(`t('${config.group}.${collection.id}')`)
-                        // parent.id?.name && stringSets.add(parent.id.name);
                     }
                 }
                 path.skip()
@@ -58,7 +51,6 @@ export const i18nTransformPlugin = {
             ImportDeclaration(path) {
                 path.node.specifiers.forEach((specifier) => {
                     if (t.isImportSpecifier(specifier) || t.isImportDefaultSpecifier(specifier) || t.isImportNamespaceSpecifier(specifier)) {
-                        // specifier.local.name && stringSets.add(specifier.local.name)
                     }
                 });
             },
@@ -77,18 +69,6 @@ export const i18nTransformPlugin = {
                     if (!stringSets.has(node.name)) {
                         return
                     }
-                    /**
-                     * const name = `${node.name}_${Date.now()}`
-                     *    chineseCollections.push({
-                     *     id: '',
-                     *     spec: name,
-                     *     zh: '',
-                     *     en: ''
-                     *     })
-                     *     path.replaceWithSourceString(`t('${name}', {${node.name}})`)
-                     *    console.log("☀️Identifier ", chineseCollection[name])
-                     *
-                     */
                 }
                 path.skip()
             },
@@ -119,7 +99,6 @@ export const i18nTransformPlugin = {
             },
             ReturnStatement(path) {
                 const {parent, node} = path
-                // parent?.body?.unshift(babelParser.parse('const { t } = useTranslation()').program.body[0]);
             },
             Program(path) {
                 const {parent, node} = path
