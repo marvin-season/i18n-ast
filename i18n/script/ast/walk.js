@@ -37,7 +37,7 @@ const walk = (dir, parentRoute, deep) => {
       const path = parentRoute + '/' + file;
       console.log('🚀  开始处理： ===========>', path);
 
-      const codeWalker = getCodeWalker(path, { effective: true, logCode: true, group });
+      const codeWalker = getCodeWalker(path, { effective: false, logCode: true, group });
       codeWalker.use({
         run({ config }) {
           config.chineseCollections?.length > 0 && chineseCollections.push({
@@ -45,20 +45,23 @@ const walk = (dir, parentRoute, deep) => {
             path,
             collections: config.chineseCollections
           });
-          processedFile.add(path);
+          !config.skip && processedFile.add(path);
         }
       });
-      console.log('🚀  完成处理： ===========>', path);
+        if (codeWalker.config.skip) {
+            console.log('🚀  跳过处理： ===========>', path);
+        } else {
+            console.log('🚀  完成处理： ===========>', path);
+        }
     }
   });
 };
 const walkBatches = (dirs) => {
-  console.log('🚀  ', dirs);
+  console.log('🚀  处理以下目录： ===========>', dirs);
   dirs.forEach(d => {
     walk(d, d, 0);
-    console.log('🚀  forEach');
   });
-  console.log('🚀  ', processedFile.size, '个文件处理完成\n', processedFile);
+  console.log('🚀  文件处理完成：===========>', processedFile.size);
   fs.writeFileSync('i18n/translations.json', JSON.stringify(chineseCollections, null, 2), 'utf8');
 };
 
