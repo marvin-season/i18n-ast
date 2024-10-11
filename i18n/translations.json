@@ -4,10 +4,28 @@
     "path": "./src/demo/Demo.tsx",
     "collections": [
       {
-        "id": "Bw-oSu6Ub3gEBeVD6c03U",
-        "spec": "\n        你好\n    ",
-        "zh": "\n        你好\n    zh lang",
-        "en": "\n        你好\n    en lang"
+        "id": "pinG4byv5MkCDdj4lio30",
+        "spec": "驾驶舱",
+        "zh": "驾驶舱zh lang",
+        "en": "驾驶舱en lang"
+      },
+      {
+        "id": "p2CXgsQLNyTUDYk7k5efJ",
+        "spec": "数据集",
+        "zh": "数据集zh lang",
+        "en": "数据集en lang"
+      },
+      {
+        "id": "vWI69YFMgBXayuxyMjbSu",
+        "spec": "驾驶舱data",
+        "zh": "驾驶舱datazh lang",
+        "en": "驾驶舱dataen lang"
+      },
+      {
+        "id": "ZR03dbfpC9ZxNDYWCAVBc",
+        "spec": "驾驶舱menu",
+        "zh": "驾驶舱menuzh lang",
+        "en": "驾驶舱menuen lang"
       }
     ]
   }
