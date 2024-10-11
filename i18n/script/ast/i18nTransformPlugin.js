@@ -25,7 +25,7 @@ export const i18nTransformPlugin = {
                 // }
 
                 // 排除 中文枚举 key
-                if(parent.type === 'TSEnumMember' &&  node === parent.id) {
+                if(parent.type === 'TSEnumMember' &&  node === parent.id || parent.type === 'CallExpression') {
                     path.skip();
                     return
                 }
