@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "group": "ask-and-learn",
+    "path": "./src/already_i18n/index.tsx",
+    "collections": [
+      {
+        "id": "nznn4Nf9LQxLNkb7bqzsc",
+        "spec": "\n        你好\n    ",
+        "zh": "\n        你好\n    zh lang",
+        "en": "\n        你好\n    en lang"
+      }
+    ]
+  }
+]

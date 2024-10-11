@@ -124,7 +124,7 @@ export const i18nTransformPlugin = {
             Program(path) {
                 const {parent, node} = path
 
-                const i18ned = node.body.find((item) => item.type === 'ImportDeclaration' && item.source.value === 'react-i18next' || item.source.value === 'i18next');
+                const i18ned = node.body.find((item) => item.type === 'ImportDeclaration' && item.source?.value === 'react-i18next' || item.source?.value === 'i18next');
                 if (i18ned) {
                     config.skip = true;
                     path.skip();
