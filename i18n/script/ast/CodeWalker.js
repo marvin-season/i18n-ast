@@ -25,11 +25,12 @@ export const getCodeWalker = (src, { effective = false, logCode = true, group })
     .use(i18nCodeGeneratePlugin)
     .use({
       run({ config }) {
-        if (!config.skip && logCode) {
-          console.log('🚀  正在写入文件: \n', config.src);
-          console.log(config.transformed.code);
-
+        if(config.skip){
+          return
         }
+
+        console.log('🚀  正在写入文件: \n', config.src);
+        console.log(config.transformed.code);
         effective && fs.writeFileSync(config.src, config.transformed.code);
       }
     });
