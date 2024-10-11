@@ -1,7 +1,7 @@
 import babelParser from '@babel/parser';
 import traverse from '@babel/traverse';
 import types from '@babel/types';
-import { nanoid } from 'nanoid';
+import {nanoid} from 'nanoid';
 
 const t = types;
 const includeSpace = v => /[\f\r\t\n\s]/.test(v);
@@ -24,7 +24,7 @@ export const i18nTransformPlugin = {
                 //     assignmentExpression[parent.left.property.name] = node.value;
                 // }
 
-                if(!['LogicalExpression', 'ConditionalExpression', 'JSXExpressionContainer'].includes(parent.type)) {
+                if (!['LogicalExpression', 'ConditionalExpression', 'JSXExpressionContainer'].includes(parent.type)) {
                     path.skip();
                     return
                 }
@@ -39,8 +39,8 @@ export const i18nTransformPlugin = {
                         const timestamp = Date.now();
                         let collection = chineseCollections.find(item => item.spec === node.value);
                         // 相同字符串只记录一次
-                        if(!collection) {
-                             collection = {
+                        if (!collection) {
+                            collection = {
                                 id: nanoid(),
                                 spec: node.value,
                                 zh: node.value + 'zh lang',
@@ -123,6 +123,13 @@ export const i18nTransformPlugin = {
             },
             Program(path) {
                 const {parent, node} = path
+
+                const i18ned = node.body.find((item) => item.type === 'ImportDeclaration' && item.source.value === 'react-i18next' || item.source.value === 'i18next');
+                if (i18ned) {
+                    config.skip = true;
+                    path.skip();
+                    return;
+                }
                 node?.body?.unshift(babelParser.parse("import {t} from 'i18next';", {sourceType: 'module'}).program.body[0])
             }
         });
