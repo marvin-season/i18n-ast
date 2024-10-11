@@ -1,0 +1,212 @@
+[
+  {
+    "group": "ask-and-learn",
+    "path": "src/pages/DashboardPage/components/DatasetCard/index.tsx",
+    "collections": [
+      {
+        "id": "pqEFfz6tdJfIfuOIGqBFi",
+        "spec": "生成中",
+        "zh": "生成中zh",
+        "en": "生成中en"
+      },
+      {
+        "id": "a3rwKLjkkmgsQg0lcKo0l",
+        "spec": "本地上传",
+        "zh": "本地上传zh",
+        "en": "本地上传en"
+      },
+      {
+        "id": "FmIb43aPUDs2fpVa8Owgi",
+        "spec": "大模型生成",
+        "zh": "大模型生成zh",
+        "en": "大模型生成en"
+      },
+      {
+        "id": "1vr47VsyApaM3_KzRPnai",
+        "spec": "公有",
+        "zh": "公有zh",
+        "en": "公有en"
+      }
+    ]
+  },
+  {
+    "group": "ask-and-learn",
+    "path": "./src/pages/DashboardPage/index.tsx",
+    "collections": [
+      {
+        "id": "QeOG1z9vrTZrHF8GvGpFa",
+        "spec": "智能平台驾驶舱",
+        "zh": "智能平台驾驶舱zh",
+        "en": "智能平台驾驶舱en"
+      },
+      {
+        "id": "pfTGd4rK52e3MZ2Mppa0E",
+        "spec": "管理您个人工作台上的所有智能生态资源，包含业务应用、智能工厂、基础设施/算力。请在问学AI市场添加您感兴趣的数据集、大模型、AI能力、AI应用等资源，并创建企业自己的私有资源。",
+        "zh": "管理您个人工作台上的所有智能生态资源，包含业务应用、智能工厂、基础设施/算力。请在问学AI市场添加您感兴趣的数据集、大模型、AI能力、AI应用等资源，并创建企业自己的私有资源。zh",
+        "en": "管理您个人工作台上的所有智能生态资源，包含业务应用、智能工厂、基础设施/算力。请在问学AI市场添加您感兴趣的数据集、大模型、AI能力、AI应用等资源，并创建企业自己的私有资源。en"
+      },
+      {
+        "id": "S_uf16y-V9X0kI_YJQA7J",
+        "spec": "业务应用",
+        "zh": "业务应用zh",
+        "en": "业务应用en"
+      },
+      {
+        "id": "zSnO4hT6M00KHZr5FFECD",
+        "spec": "应用",
+        "zh": "应用zh",
+        "en": "应用en"
+      },
+      {
+        "id": "X4V0G9OivmevtLEeNM-n1",
+        "spec": "暂无数据",
+        "zh": "暂无数据zh",
+        "en": "暂无数据en"
+      },
+      {
+        "id": "FwLu30JI5SIGPz94dD3Qp",
+        "spec": "智能工厂",
+        "zh": "智能工厂zh",
+        "en": "智能工厂en"
+      },
+      {
+        "id": "qNUJ-sXKfPRlMpMCWnfXF",
+        "spec": "数据集",
+        "zh": "数据集zh",
+        "en": "数据集en"
+      },
+      {
+        "id": "jKaTCI63lDg2CTV0FbVm4",
+        "spec": "暂无数据",
+        "zh": "暂无数据zh",
+        "en": "暂无数据en"
+      },
+      {
+        "id": "oLfZeWz7KwnJzoBWYhXyS",
+        "spec": "大模型",
+        "zh": "大模型zh",
+        "en": "大模型en"
+      },
+      {
+        "id": "a9XkKUjHJwJmhXbSiWvwV",
+        "spec": "暂无数据",
+        "zh": "暂无数据zh",
+        "en": "暂无数据en"
+      },
+      {
+        "id": "PcoMgQgF02S8ixS0druXk",
+        "spec": "基础设施",
+        "zh": "基础设施zh",
+        "en": "基础设施en"
+      },
+      {
+        "id": "NvCwIEpZBvkT1mwZJK3Gu",
+        "spec": "算力",
+        "zh": "算力zh",
+        "en": "算力en"
+      },
+      {
+        "id": "8GdxmYW0G9Gm6ZKH9EiI1",
+        "spec": "基础设施",
+        "zh": "基础设施zh",
+        "en": "基础设施en"
+      },
+      {
+        "id": "nioBT_OuXRZa50esvKipd",
+        "spec": "集群",
+        "zh": "集群zh",
+        "en": "集群en"
+      }
+    ]
+  },
+  {
+    "group": "ask-and-learn",
+    "path": "./src/pages/AIAbilityDetailPage/index.tsx",
+    "collections": [
+      {
+        "id": "WxtR-CXzKo98s58h5iTYP",
+        "spec": "AI能力详情",
+        "zh": "AI能力详情zh",
+        "en": "AI能力详情en"
+      },
+      {
+        "id": "AvksBYwZqUvEQD66OgFOi",
+        "spec": "展示AI能力详细信息，用户可以查看SDK说明，选择将合适的AI能力复制到我的工作台，配置完后选择环境发布后即可体验并查看调用日志。",
+        "zh": "展示AI能力详细信息，用户可以查看SDK说明，选择将合适的AI能力复制到我的工作台，配置完后选择环境发布后即可体验并查看调用日志。zh",
+        "en": "展示AI能力详细信息，用户可以查看SDK说明，选择将合适的AI能力复制到我的工作台，配置完后选择环境发布后即可体验并查看调用日志。en"
+      },
+      {
+        "id": "Yqmz9qKXuA7U-rHHRWk6i",
+        "spec": "展示AI能力详细信息，用户可以进行设置AI能力基本信息、查看SDK说明，配置完的AI能力选择环境发布后即可体验并查看调用日志。",
+        "zh": "展示AI能力详细信息，用户可以进行设置AI能力基本信息、查看SDK说明，配置完的AI能力选择环境发布后即可体验并查看调用日志。zh",
+        "en": "展示AI能力详细信息，用户可以进行设置AI能力基本信息、查看SDK说明，配置完的AI能力选择环境发布后即可体验并查看调用日志。en"
+      },
+      {
+        "id": "aa-RX4f-jCbp2ErQuzUFa",
+        "spec": "步骤4",
+        "zh": "步骤4zh",
+        "en": "步骤4en"
+      },
+      {
+        "id": "jsbRcGNKqVbyDzZBwByzt",
+        "spec": "已添加到工作台",
+        "zh": "已添加到工作台zh",
+        "en": "已添加到工作台en"
+      },
+      {
+        "id": "RWfJA-kpoVF1dLxSzhCfw",
+        "spec": "能力",
+        "zh": "能力zh",
+        "en": "能力en"
+      },
+      {
+        "id": "Xv0fhqsNHhBmQLeYzjf1Z",
+        "spec": "已添加到工作台",
+        "zh": "已添加到工作台zh",
+        "en": "已添加到工作台en"
+      },
+      {
+        "id": "3zwbJ7DG81lYt0rLm5xjk",
+        "spec": "添加到工作台",
+        "zh": "添加到工作台zh",
+        "en": "添加到工作台en"
+      },
+      {
+        "id": "m_6mOGQCBcUI3PoWo3cp9",
+        "spec": "能力",
+        "zh": "能力zh",
+        "en": "能力en"
+      },
+      {
+        "id": "3fJVBji421127Tx-aMK_P",
+        "spec": "添加到工作台",
+        "zh": "添加到工作台zh",
+        "en": "添加到工作台en"
+      },
+      {
+        "id": "QwFculzYMpg1g-Ay46ZpJ",
+        "spec": "步骤3",
+        "zh": "步骤3zh",
+        "en": "步骤3en"
+      },
+      {
+        "id": "_ouI9UW87eeDxe3Wig5ad",
+        "spec": "概览",
+        "zh": "概览zh",
+        "en": "概览en"
+      },
+      {
+        "id": "aHnwcph8Hu8GExTjwKYF7",
+        "spec": "确定删除AI能力",
+        "zh": "确定删除AI能力zh",
+        "en": "确定删除AI能力en"
+      },
+      {
+        "id": "U5mDD7pIZTWuBp076uWfY",
+        "spec": "您确定要删除这个AI能力吗？",
+        "zh": "您确定要删除这个AI能力吗？zh",
+        "en": "您确定要删除这个AI能力吗？en"
+      }
+    ]
+  }
+]
