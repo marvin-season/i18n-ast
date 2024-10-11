@@ -4,16 +4,16 @@
     "path": "./src/demo/Demo.tsx",
     "collections": [
       {
-        "id": "Alz6EjqLhviwFDJMwqRsv",
+        "id": "IeTBGXx_Mlf-L4YdX02hM",
         "spec": "驾驶舱data",
-        "zh": "驾驶舱datazh lang",
-        "en": "驾驶舱dataen lang"
+        "zh": "驾驶舱data zh lang",
+        "en": "驾驶舱data en lang"
       },
       {
-        "id": "GxDtF6xMCLoLARetAjYxD",
+        "id": "k19hPwg4bzcFkkpehbZv5",
         "spec": "驾驶舱menu",
-        "zh": "驾驶舱menuzh lang",
-        "en": "驾驶舱menuen lang"
+        "zh": "驾驶舱menu zh lang",
+        "en": "驾驶舱menu en lang"
       }
     ]
   }

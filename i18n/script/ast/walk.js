@@ -37,7 +37,7 @@ const walk = (dir, parentRoute, deep) => {
       const path = parentRoute + '/' + file;
       console.log('🚀  开始处理： ===========>', path);
 
-      const codeWalker = getCodeWalker(path, { effective: false, logCode: true, group });
+      const codeWalker = getCodeWalker(path, { effective: true, logCode: true, group });
       codeWalker.use({
         run({ config }) {
           config.chineseCollections?.length > 0 && chineseCollections.push({
