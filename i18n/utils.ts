@@ -22,7 +22,7 @@ export const languages = data.languages;
 
 export const LanguagesSupported = languages.filter((item) => item.supported).map((item) => item.value);
 
-export const getResources = () =>
+export const getResources = async () =>
   LanguagesSupported.reduce(async (accPromise: Promise<Record<string, any>>, lang: string) => {
     const acc = await accPromise;
     acc[lang] = await loadLangResources(lang);
