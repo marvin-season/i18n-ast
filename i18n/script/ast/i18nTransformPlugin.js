@@ -1,0 +1,132 @@
+import babelParser from '@babel/parser';
+import traverse from '@babel/traverse';
+import types from '@babel/types';
+import { nanoid } from 'nanoid';
+
+const t = types;
+const includeSpace = v => /[\f\r\t\n\s]/.test(v);
+const includesChinese = v => /[\u4e00-\u9fa5]+/g.test(v);
+const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g);
+
+export const i18nTransformPlugin = {
+    run: ({ast, config}) => {
+        const chineseCollections = [];
+        const stringSets = new Set();
+        // const assignmentExpression = {};
+
+        traverse.default(ast, {
+            TSEnumMember(path) {
+                const {node} = path;
+            },
+            StringLiteral(path) {
+                const {parent, node} = path;
+                // if(parent.type === 'AssignmentExpression') {
+                //     assignmentExpression[parent.left.property.name] = node.value;
+                // }
+
+                // 排除 中文枚举 key
+                if(parent.type === 'TSEnumMember' &&  node === parent.id) {
+                    path.skip();
+                    return
+                }
+                if (includesChinese(node.value)) {
+                    if (t.isJSXAttribute(parent)) {
+                        // path.skip()
+                        // 转换成string
+                        path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
+                        return
+                    } else {
+                        const timestamp = Date.now();
+                        let collection = chineseCollections.find(item => item.spec === node.value);
+                        // 相同字符串只记录一次
+                        if(!collection) {
+                             collection = {
+                                id: nanoid(),
+                                spec: node.value,
+                                zh: node.value + 'zh lang',
+                                en: node.value + 'en lang'
+                            };
+                            chineseCollections.push(collection)
+                        }
+
+                        path.replaceWithSourceString(`t('${config.group}.${collection.id}')`)
+                        // parent.id?.name && stringSets.add(parent.id.name);
+                    }
+                }
+                path.skip()
+            },
+            ImportDeclaration(path) {
+                path.node.specifiers.forEach((specifier) => {
+                    if (t.isImportSpecifier(specifier) || t.isImportDefaultSpecifier(specifier) || t.isImportNamespaceSpecifier(specifier)) {
+                        // specifier.local.name && stringSets.add(specifier.local.name)
+                    }
+                });
+            },
+            JSXText(path) {
+                const {node, parent} = path;
+                const {value} = node;
+                if (includesChinese(node.value)) {
+                    path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
+                    return
+                }
+                path.skip()
+            },
+            Identifier(path) {
+                const {parent, node} = path;
+                if (t.isJSXExpressionContainer(parent)) {
+                    if (!stringSets.has(node.name)) {
+                        return
+                    }
+                    /**
+                     * const name = `${node.name}_${Date.now()}`
+                     *    chineseCollections.push({
+                     *     id: '',
+                     *     spec: name,
+                     *     zh: '',
+                     *     en: ''
+                     *     })
+                     *     path.replaceWithSourceString(`t('${name}', {${node.name}})`)
+                     *    console.log("☀️Identifier ", chineseCollection[name])
+                     *
+                     */
+                }
+                path.skip()
+            },
+            TemplateLiteral: function (path) {
+                const {node} = path;
+                const {expressions, quasis} = node;
+                // todo 获取所有quasis中value 不为空和数字的, 如果不为末尾,记录前面有几个''
+                let enCountExpressions = 0;
+                quasis.forEach((node, index) => {
+                    const {
+                        value: {raw}, tail,
+                    } = node;
+                    if (!includesChinese(raw)) {
+                    } else {
+                        let newCall = t.stringLiteral(raw);
+                        expressions.splice(index + enCountExpressions, 0, newCall);
+                        enCountExpressions++;
+                        node.value = {
+                            raw: '', cooked: '',
+                        };
+                        // 每增添一个表达式都需要变化原始节点,并新增下一个字符节点
+                        quasis.push(t.templateElement({
+                            raw: '', cooked: '',
+                        }, false,),);
+                    }
+                });
+                quasis[quasis.length - 1].tail = true;
+            },
+            ReturnStatement(path) {
+                const {parent, node} = path
+                // parent?.body?.unshift(babelParser.parse('const { t } = useTranslation()').program.body[0]);
+            },
+            Program(path) {
+                const {parent, node} = path
+                node?.body?.unshift(babelParser.parse("import {t} from 'i18next';", {sourceType: 'module'}).program.body[0])
+            }
+        });
+        config.chineseCollections = chineseCollections;
+    }
+
+}
