@@ -24,11 +24,11 @@ export const i18nTransformPlugin = {
                 //     assignmentExpression[parent.left.property.name] = node.value;
                 // }
 
-                // 排除 中文枚举 key
-                if(parent.type === 'TSEnumMember' &&  node === parent.id || parent.type === 'CallExpression') {
+                if(!['LogicalExpression', 'ConditionalExpression', 'JSXExpressionContainer'].includes(parent.type)) {
                     path.skip();
                     return
                 }
+
                 if (includesChinese(node.value)) {
                     if (t.isJSXAttribute(parent)) {
                         // path.skip()
