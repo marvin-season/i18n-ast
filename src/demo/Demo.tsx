@@ -34,6 +34,8 @@ export const Demo = () => {
             {
                 hasAuth('工作台') ? '有权限' : '无权限'
             }
+        </div>
+        <div>
             {
                 array.includes(Color.红色) && <input defaultValue={Color.红色}></input>
             }
