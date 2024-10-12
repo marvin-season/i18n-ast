@@ -1,10 +1,14 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
 import parser from '@babel/parser';
-import traverse from '@babel/traverse';
+import traverse, {cache} from '@babel/traverse';
 import generate from '@babel/generator';
 import types from '@babel/types';
 import fs from 'fs'
+import path from 'path'
+import XLSX from 'xlsx';
+
+const outputFilePath = path.resolve('./i18n.xlsx');
 
 const includesChinese = v => /[\u4e00-\u9fa5]+/g.test(v);
 
@@ -34,7 +38,10 @@ export default defineConfig({
                         const {node, parent} = path;
                         const {value} = node;
                         if (includesChinese(node.value)) {
-                            path.replaceWith(types.jsxExpressionContainer({ ...types.stringLiteral(node.value), loc: node.loc}))
+                            path.replaceWith(types.jsxExpressionContainer({
+                                ...types.stringLiteral(node.value),
+                                loc: node.loc
+                            }))
                             return
                         }
                         path.skip()
@@ -79,7 +86,10 @@ export default defineConfig({
                         // 构造新的字符串，包含文件名称和位置信息
                         const newValue = `${originalValue} [${fileName}#${position}]`;
                         const newNode = types.stringLiteral(newValue);
-
+                        // 将信息写入到excel中
+                        // Example usage
+                        const newRecord = {fileName, originalValue, newValue};
+                        appendRecordToExcel(newRecord);
                         // 替换原来的字符串节点
                         path.replaceWith(newNode);
                         // 替换原来的字符串节点
@@ -100,3 +110,33 @@ export default defineConfig({
         react()
     ],
 })
+
+const appendRecordToExcel = (record) => {
+    let workbook;
+    if (fs.existsSync(outputFilePath)) {
+        // Load the existing workbook
+        workbook = XLSX.readFile(outputFilePath);
+    } else {
+        // Create a new workbook
+        workbook = XLSX.utils.book_new();
+    }
+
+    // Get the first sheet or create a new one
+    let sheetName = 'sheet1';
+    let worksheet = workbook.Sheets[sheetName];
+    if (!worksheet) {
+        worksheet = XLSX.utils.json_to_sheet([]);
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+    }
+
+    // Convert the worksheet to JSON to append the new record
+    const sheetData = XLSX.utils.sheet_to_json(worksheet);
+    sheetData.push(record);
+
+    // Convert the JSON back to a worksheet
+    const newWorksheet = XLSX.utils.json_to_sheet(sheetData);
+    workbook.Sheets[sheetName] = newWorksheet;
+
+    // Write the updated workbook to file
+    XLSX.writeFile(workbook, outputFilePath);
+};

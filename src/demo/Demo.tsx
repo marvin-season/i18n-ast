@@ -5,7 +5,7 @@ enum Color {
 
 const array = ['工作台', '驾驶舱', '红色', Color.红色, Color.Blue]
 
-const intro = `${'介绍'}：一个帅气颜色: ${Color.红色}对吧！`;
+const intro = `${'介绍'}：一个帅 气颜色: ${Color.红色}对吧！`;
 
 const hasAuth = (k: string) => {
     console.log({array, k})
