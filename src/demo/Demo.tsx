@@ -3,10 +3,13 @@ enum Color {
     Blue = 'Blue',
 }
 
+const array = ['工作台', '驾驶舱', '红色', Color.红色, Color.Blue]
+
 const intro = `${'介绍'}：一个帅气颜色: ${Color.红色}对吧！`;
 
 const hasAuth = (k: string) => {
-    return true
+    console.log({array, k})
+    return array.includes(k);
 }
 
 export const Demo = () => {
@@ -32,10 +35,12 @@ export const Demo = () => {
                 hasAuth('工作台') ? '有权限' : '无权限'
             }
             {
-                ['红色', Color.红色, Color.Blue].includes(Color.红色) && <input defaultValue={Color.红色}></input>
+                array.includes(Color.红色) && <input defaultValue={Color.红色}></input>
             }
         </div>
 
-
+        <div>
+            {array.map((item, index) => (<div key={index}>{item}</div>))}
+        </div>
     </>;
 };
