@@ -18,8 +18,6 @@ function App() {
                 ))}
             </select>
             <Demo/>
-            <Already_i18n/>
-
         </>
     )
 }
