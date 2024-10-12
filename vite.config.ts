@@ -39,6 +39,31 @@ export default defineConfig({
                         }
                         path.skip()
                     },
+                    TemplateLiteral: function (path) {
+                        const {node} = path;
+                        const {expressions, quasis} = node;
+                        // todo 获取所有quasis中value 不为空和数字的, 如果不为末尾,记录前面有几个''
+                        let enCountExpressions = 0;
+                        quasis.forEach((node, index) => {
+                            const {
+                                value: {raw}, tail,
+                            } = node;
+                            if (!includesChinese(raw)) {
+                            } else {
+                                let newCall = types.stringLiteral(raw);
+                                expressions.splice(index + enCountExpressions, 0, {...newCall, loc: node.loc});
+                                enCountExpressions++;
+                                node.value = {
+                                    raw: '', cooked: '',
+                                };
+                                // 每增添一个表达式都需要变化原始节点,并新增下一个字符节点
+                                quasis.push(types.templateElement({
+                                    raw: '', cooked: '',
+                                }, false,),);
+                            }
+                        });
+                        quasis[quasis.length - 1].tail = true;
+                    },
                     StringLiteral(path) {
                         const {node, parent} = path;
                         const originalValue = node.value;

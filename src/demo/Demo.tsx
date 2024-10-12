@@ -3,7 +3,7 @@ enum Color {
     Blue = 'Blue',
 }
 
-const intro = `一个帅气颜色 => ${Color.红色}`;
+const intro = `${'介绍'}：一个帅气颜色: ${Color.红色}对吧！`;
 
 const hasAuth = (k: string) => {
     return true
