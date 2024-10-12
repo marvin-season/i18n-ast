@@ -30,20 +30,29 @@ export default defineConfig({
                 });
 
                 traverse.default(ast, {
+                    JSXText(path) {
+                        const {node, parent} = path;
+                        const {value} = node;
+                        if (includesChinese(node.value)) {
+                            path.replaceWith(types.jsxExpressionContainer({ ...types.stringLiteral(node.value), loc: node.loc}))
+                            return
+                        }
+                        path.skip()
+                    },
                     StringLiteral(path) {
-                        const originalValue = path.node.value;
+                        const {node, parent} = path;
+                        const originalValue = node.value;
 
                         if (!includesChinese(originalValue)) {
                             return
                         }
 
                         console.log('originalValue', originalValue);
-
-                        const fileName = id.split('/').pop();
-                        const position = `(${path.node.loc.start.line}:${path.node.loc.start.column})`;
+                        const fileName = id.replace(/^(.*)(src.*)$/, '$2').replace(/\//g, '#')
+                        const position = `${node.loc?.start.line}#${node.loc?.start.column}`;
 
                         // 构造新的字符串，包含文件名称和位置信息
-                        const newValue = `${originalValue} [${fileName}${position}]`;
+                        const newValue = `${originalValue}#${fileName}#${position}`;
                         const newNode = types.stringLiteral(newValue);
 
                         // 替换原来的字符串节点

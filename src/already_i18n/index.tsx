@@ -2,6 +2,7 @@
 
 export const Already_i18n = () => {
     return <>
-        你好
+
+        <div>你好</div>
     </>
 }
