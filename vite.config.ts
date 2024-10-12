@@ -77,7 +77,7 @@ export default defineConfig({
                         const position = `${node.loc?.start.line}#${node.loc?.start.column}`;
 
                         // 构造新的字符串，包含文件名称和位置信息
-                        const newValue = `${originalValue}#${fileName}#${position}`;
+                        const newValue = `${originalValue} [${fileName}#${position}]`;
                         const newNode = types.stringLiteral(newValue);
 
                         // 替换原来的字符串节点

@@ -42,7 +42,7 @@ export const Demo = () => {
         </div>
 
         <div>
-            {array.map((item, index) => (<div key={index}>{item}</div>))}
+            {array.map((item, index) => (<div key={index}>{item.length <= 5 && item}</div>))}
         </div>
     </>;
 };
