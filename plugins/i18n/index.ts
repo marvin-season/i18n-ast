@@ -1,6 +1,6 @@
 import parser from '@babel/parser';
-import traverse from '@babel/traverse';
-import generate from '@babel/generator';
+import * as traverse from '@babel/traverse';
+import * as generate from '@babel/generator';
 import types from '@babel/types';
 import fs from 'fs'
 // import {appendRecordToExcel} from "./xlsx";
