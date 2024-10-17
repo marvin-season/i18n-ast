@@ -1,10 +1,13 @@
 import parser from '@babel/parser';
-import * as traverse from '@babel/traverse';
-import * as generate from '@babel/generator';
+import babelTraverse from '@babel/traverse';
+import babelGenerate from '@babel/generator';
 import types from '@babel/types';
 import fs from 'fs'
 // import {appendRecordToExcel} from "./xlsx";
 import {PluginOption} from 'vite';
+
+const traverse = (babelTraverse as unknown as { default: typeof babelTraverse; }).default;
+const generate = (babelGenerate as unknown as { default: typeof babelGenerate; }).default;
 
 const includesChinese = (v: string) => /[\u4e00-\u9fa5]+/g.test(v);
 
@@ -27,7 +30,7 @@ export const i18nPlugin: () => PluginOption = () => {
                 plugins: ['jsx', "typescript"],
             });
 
-            traverse.default(ast, {
+            traverse(ast, {
                 JSXText(path) {
                     const {node, parent} = path;
                     const {value} = node;
@@ -93,7 +96,7 @@ export const i18nPlugin: () => PluginOption = () => {
             });
 
             // 生成新的代码
-            const output = generate.default(ast, {}, code);
+            const output = generate(ast, {}, code);
 
             return {
                 code: output.code,
