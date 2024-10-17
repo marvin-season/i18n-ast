@@ -11,11 +11,10 @@
     "i18n": "node ./i18n/script/ast/walk.js ./src/already_i18n"
   },
   "dependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/generator": "^7.24.5",
-    "@babel/parser": "^7.24.5",
-    "@babel/traverse": "^7.24.5",
-    "@babel/types": "^7.24.5",
+    "@babel/generator": "^7.25.7",
+    "@babel/parser": "^7.25.8",
+    "@babel/traverse": "^7.25.7",
+    "@babel/types": "^7.25.8",
     "@types/lodash": "^4.17.10",
     "i18next": "^23.11.5",
     "i18next-browser-languagedetector": "^8.0.0",

@@ -8,20 +8,17 @@ importers:
 
   .:
     dependencies:
-      '@babel/core':
-        specifier: ^7.24.5
-        version: 7.25.8
       '@babel/generator':
-        specifier: ^7.24.5
+        specifier: ^7.25.7
         version: 7.25.7
       '@babel/parser':
-        specifier: ^7.24.5
+        specifier: ^7.25.8
         version: 7.25.8
       '@babel/traverse':
-        specifier: ^7.24.5
+        specifier: ^7.25.7
         version: 7.25.7
       '@babel/types':
-        specifier: ^7.24.5
+        specifier: ^7.25.8
         version: 7.25.8
       '@types/lodash':
         specifier: ^4.17.10
