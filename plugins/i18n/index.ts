@@ -14,16 +14,19 @@ const includesChinese = (v: string) => /[\u4e00-\u9fa5]+/g.test(v);
 export const i18nPlugin: () => PluginOption = () => {
     return {
         name: 'i18n-plugin',
+        enforce: 'pre',
         configResolved() {
             console.log('i18n-plugin loaded');
         },
-        load(id) {
+        transform(code, id) {
             // 过滤掉非 JavaScript/TypeScript 文件
             if (!id.match(/\.(tsx)$/)) return;
 
-            const code = fs.readFileSync(id, 'utf-8');
+            // const code = fs.readFileSync(id, 'utf-8');
 
             console.log('id', id)
+            console.log(code)
+
             // 使用 Babel parser 解析代码成 AST
             const ast = parser.parse(code, {
                 sourceType: 'module',
