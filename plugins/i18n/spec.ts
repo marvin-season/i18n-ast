@@ -11,7 +11,6 @@ const traverse = (babelTraverse as unknown as { default: typeof babelTraverse })
 const generate = (babelGenerate as unknown as { default: typeof babelGenerate })
   .default;
 
-
 console.log(t('common.api.success'));
 
 const format = async (code: string) => {
@@ -60,8 +59,26 @@ traverse(ast, {
   StringLiteral(path) {
     const { node, parent } = path;
     const { value } = node;
+    if (parent.type === 'ImportDeclaration') {
+      return;
+    }
     path.replaceWith(types.stringLiteral(value + ' - i18n'));
     path.skip();
+  },
+  ReturnStatement(path) {
+    const { parent, node } = path;
+    // @ts-ignore
+    parent?.body?.unshift(
+      parser.parse('const { t } = useTranslation()').program.body[0]
+    );
+  },
+  Program(path) {
+    const { parent, node } = path;
+    node?.body?.unshift(
+      parser.parse("import { useTranslation } from 'react-i18next';", {
+        sourceType: 'module',
+      }).program.body[0]
+    );
   },
 });
 

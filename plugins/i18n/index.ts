@@ -96,6 +96,21 @@ export const i18nPlugin: () => PluginOption = () => {
 
                     path.skip();
                 },
+                ReturnStatement(path) {
+                    const { parent, node } = path;
+                    // @ts-ignore
+                    parent?.body?.unshift(
+                      parser.parse('const { t } = useTranslation()').program.body[0]
+                    );
+                },
+                Program(path) {
+                    const { parent, node } = path;
+                    node?.body?.unshift(
+                      parser.parse("import { useTranslation } from 'react-i18next';", {
+                          sourceType: 'module',
+                      }).program.body[0]
+                    );
+                },
             });
 
             // 生成新的代码
