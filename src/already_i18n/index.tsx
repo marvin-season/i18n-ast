@@ -1,8 +1,7 @@
-
-
 export const Already_i18n = () => {
-    return <>
-
-        <div>你好</div>
+  return (
+    <>
+      <div>你好</div>
     </>
-}
+  );
+};
