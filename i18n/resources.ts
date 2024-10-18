@@ -39,6 +39,5 @@ const translationsResources = translations.map(translation => handelReduceResour
     group: translation.group
 }));
 const mergeResources = lodash.merge({}, ...translationsResources);
-console.log("🚀  mergeResources", mergeResources);
 
 export const resources = mergeResources;

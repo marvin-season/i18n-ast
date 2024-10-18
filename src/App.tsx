@@ -1,5 +1,5 @@
 import { Demo } from './demo/Demo.tsx';
-import i18n from 'i18next';
+import i18n, { t } from 'i18next';
 import { Already_i18n } from './already_i18n';
 
 const languages = ['en', 'zh'];
@@ -25,7 +25,7 @@ function App() {
           />
         ))}
       </select>
-      <Demo />
+      {t('common.api.success')}
     </>
   );
 }

@@ -3,11 +3,16 @@ import babelTraverse from '@babel/traverse';
 import babelGenerate from '@babel/generator';
 import types from '@babel/types';
 import prettier from 'prettier';
+import { t } from 'i18next';
+import '../../i18n';
 
 const traverse = (babelTraverse as unknown as { default: typeof babelTraverse })
   .default;
 const generate = (babelGenerate as unknown as { default: typeof babelGenerate })
   .default;
+
+
+console.log(t('common.api.success'));
 
 const format = async (code: string) => {
   return await prettier.format(code, {
