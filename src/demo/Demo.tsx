@@ -37,12 +37,15 @@ export const Demo = () => {
   );
 };
 
+const useType = () => '红色'
+
 export const App = () => {
+  const type = useType();
   return (
     <>
-      <div className={'app'} data-name={'aaa'}>
-        {'驾驶舱'}
-      </div>
+      {
+        type === Color.红色 ? <div>红色</div> : <div>蓝色</div>
+      }
     </>
   );
 };
