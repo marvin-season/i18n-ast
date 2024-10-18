@@ -46,3 +46,15 @@ export const Demo = () => {
         </div>
     </>;
 };
+
+export const App = () => {
+    return <>
+        <div
+            className={'app'}
+            data-name={'aaa'}
+        >
+
+            {'驾驶舱'}
+        </div>
+    </>
+}
