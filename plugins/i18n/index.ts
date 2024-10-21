@@ -10,24 +10,26 @@ const traverse = (babelTraverse as unknown as { default: typeof babelTraverse })
   .default;
 const generate = (babelGenerate as unknown as { default: typeof babelGenerate })
   .default;
-
+const isValid = (id: string) => {
+  return id.match(/\.(tsx|ts)$/) && id.match(/.*src\/(.*).*/);
+};
 const includesChinese = (v: string) => /[\u4e00-\u9fa5]+/g.test(v);
 
 export const i18nPlugin: () => PluginOption = () => {
+  let isBuild = false;
   return {
     name: "i18n-plugin",
     enforce: "pre",
-    configResolved() {
-      console.log("i18n-plugin loaded");
+    config(_, { command }) {
+      isBuild = command === "build";
     },
     transform(code, id) {
       // 过滤掉非 JavaScript/TypeScript 文件
-      if (!id.match(/\.(tsx)$/)) return;
+      if (!isValid(id)) return;
 
       // const code = fs.readFileSync(id, 'utf-8');
 
-      console.log("id", id);
-      console.log(code);
+      console.log("valid id", id);
 
       // 使用 Babel parser 解析代码成 AST
       const ast = parser.parse(code, {
@@ -111,6 +113,7 @@ export const i18nPlugin: () => PluginOption = () => {
         },
         FunctionDeclaration(path) {
           const { parent, node } = path;
+          // @ts-ignore
           const identifier = parent.id;
           if (identifier?.name.startsWith("use")) {
             node.body.body.unshift(
@@ -121,12 +124,16 @@ export const i18nPlugin: () => PluginOption = () => {
 
         ArrowFunctionExpression(path) {
           const { parent, node } = path;
-          const identifier = parent.id;
-          if (identifier?.name.startsWith("use")) {
-            if (node.body.type === "BlockStatement") {
-              node.body.body?.unshift(
-                parser.parse("const { t } = useTranslation()").program.body[0],
-              );
+          if (parent.type === "VariableDeclarator") {
+            const identifier = parent.id;
+            // @ts-ignore
+            if (identifier.name.startsWith("use")) {
+              if (node.body.type === "BlockStatement") {
+                node.body.body?.unshift(
+                  parser.parse("const { t } = useTranslation()").program
+                    .body[0],
+                );
+              }
             }
           }
         },
@@ -156,6 +163,10 @@ export const i18nPlugin: () => PluginOption = () => {
 
       // 生成新的代码
       const output = generate(ast, {}, code);
+
+      if (isBuild) {
+        fs.writeFileSync(id, output.code, "utf-8");
+      }
 
       return {
         code: output.code,
