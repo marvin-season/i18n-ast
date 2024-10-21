@@ -32,14 +32,16 @@ export const Demo = () => {
 
       <div>
         {array.map((item, index) => (
-          <div key={index}>{item.length <= 5 && item}</div>
+          <div key={index}>{item?.length <= 5 && item}</div>
         ))}
       </div>
     </>
   );
 };
 
-const useType = () => "红色";
+const useType = () => {
+  return "红色"
+}
 
 export const App = () => {
   const type = useType();

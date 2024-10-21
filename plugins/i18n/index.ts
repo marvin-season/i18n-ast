@@ -103,12 +103,8 @@ export const i18nPlugin: () => PluginOption = () => {
           // 构造新的字符串，包含文件名称和位置信息
           const newValue = `${originalValue} [${fileName}#${position}]`;
           const newNode = types.stringLiteral(newValue);
-          // 将信息写入到excel中
-          // Example usage
-          // const newRecord = {fileName, originalValue, newValue};
-          // appendRecordToExcel(newRecord);
-          // 替换原来的字符串节点
-          path.replaceWith(newNode);
+
+          path.replaceWithSourceString(`t('common.api.success')`);
           // 替换原来的字符串节点
 
           path.skip();
@@ -127,9 +123,11 @@ export const i18nPlugin: () => PluginOption = () => {
           const { parent, node } = path;
           const identifier = parent.id;
           if (identifier?.name.startsWith("use")) {
-            node.body.body.unshift(
-              parser.parse("const { t } = useTranslation()").program.body[0],
-            );
+            if (node.body.type === "BlockStatement") {
+              node.body.body?.unshift(
+                parser.parse("const { t } = useTranslation()").program.body[0],
+              );
+            }
           }
         },
         Program(path) {
