@@ -1,10 +1,9 @@
-import fs from 'fs';
-import { i18nTransformPlugin } from './i18nTransformPlugin.js';
-import { i18nCodeGeneratePlugin } from './i18nCodeGeneratePlugin.js';
-import { i18nASTParsePlugin } from './i18nASTParsePlugin.js';
+import fs from "fs";
+import { i18nTransformPlugin } from "./i18nTransformPlugin.js";
+import { i18nCodeGeneratePlugin } from "./i18nCodeGeneratePlugin.js";
+import { i18nASTParsePlugin } from "./i18nASTParsePlugin.js";
 
 class CodeWalker {
-
   config = {};
 
   constructor(config) {
@@ -17,21 +16,23 @@ class CodeWalker {
   }
 }
 
-
-export const getCodeWalker = (src, { effective = false, logCode = true, group }) => {
+export const getCodeWalker = (
+  src,
+  { effective = false, logCode = true, group },
+) => {
   return new CodeWalker({ src, group })
     .use(i18nASTParsePlugin)
     .use(i18nTransformPlugin)
     .use(i18nCodeGeneratePlugin)
     .use({
       run({ config }) {
-        if(config.skip){
-          return
+        if (config.skip) {
+          return;
         }
 
-        console.log('🚀  正在写入文件: \n', config.src);
+        console.log("🚀  正在写入文件: \n", config.src);
         console.log(config.transformed.code);
         effective && fs.writeFileSync(config.src, config.transformed.code);
-      }
+      },
     });
 };

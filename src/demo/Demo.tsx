@@ -1,5 +1,3 @@
-
-
 enum Color {
   红色 = "红色",
   Blue = "Blue",
@@ -40,8 +38,8 @@ export const Demo = () => {
 };
 
 const useType = () => {
-  return "红色"
-}
+  return "红色";
+};
 
 export const App = () => {
   const type = useType();

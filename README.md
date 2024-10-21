@@ -2,8 +2,8 @@
 
 vim src/demo/Demo.tsx, and make the file does not have i18n config
 
-```tsx
+````tsx
 
 ```shell
 pnpm run i18n
-```
+````

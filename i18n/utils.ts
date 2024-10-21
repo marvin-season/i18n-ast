@@ -1,4 +1,4 @@
-import data from './languages.json';
+import data from "./languages.json";
 
 const loadLangResources = async (lang: string) => {
   const commonModule = await import(`./${lang}/common.ts`);
@@ -20,11 +20,16 @@ const loadLangResources = async (lang: string) => {
 
 export const languages = data.languages;
 
-export const LanguagesSupported = languages.filter((item) => item.supported).map((item) => item.value);
+export const LanguagesSupported = languages
+  .filter((item) => item.supported)
+  .map((item) => item.value);
 
 export const getResources = async () =>
-  LanguagesSupported.reduce(async (accPromise: Promise<Record<string, any>>, lang: string) => {
-    const acc = await accPromise;
-    acc[lang] = await loadLangResources(lang);
-    return acc;
-  }, Promise.resolve({}));
+  LanguagesSupported.reduce(
+    async (accPromise: Promise<Record<string, any>>, lang: string) => {
+      const acc = await accPromise;
+      acc[lang] = await loadLangResources(lang);
+      return acc;
+    },
+    Promise.resolve({}),
+  );
