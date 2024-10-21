@@ -1,3 +1,5 @@
+
+
 enum Color {
   红色 = "红色",
   Blue = "Blue",
