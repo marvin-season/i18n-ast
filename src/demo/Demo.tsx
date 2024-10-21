@@ -1,11 +1,11 @@
 enum Color {
-  红色 = '红色',
-  Blue = 'Blue',
+  红色 = "红色",
+  Blue = "Blue",
 }
 
-const array = ['工作台', '驾驶舱', '红色', Color.红色, Color.Blue];
+const array = ["工作台", "驾驶舱", "红色", Color.红色, Color.Blue];
 
-const intro = `${'介绍'}：一个帅 气颜色: ${Color.红色}对吧！`;
+const intro = `${"介绍"}：一个帅 气颜色: ${Color.红色}对吧！`;
 
 const hasAuth = (k: string) => {
   console.log({ array, k });
@@ -16,12 +16,12 @@ export const Demo = () => {
   return (
     <>
       <div>工作台</div>
-      <div>{'驾驶舱'}</div>
+      <div>{"驾驶舱"}</div>
       <div>{intro}</div>
-      <input defaultValue={'驾驶舱'}></input>
+      <input defaultValue={"驾驶舱"}></input>
 
       <div>{Color.红色}</div>
-      <div>{hasAuth('工作台') ? '有权限' : '无权限'}</div>
+      <div>{hasAuth("工作台") ? "有权限" : "无权限"}</div>
       <div>
         {array.includes(Color.红色) && (
           <input defaultValue={Color.红色}></input>
@@ -37,15 +37,9 @@ export const Demo = () => {
   );
 };
 
-const useType = () => '红色'
+const useType = () => "红色";
 
 export const App = () => {
   const type = useType();
-  return (
-    <>
-      {
-        type === Color.红色 ? <div>红色</div> : <div>蓝色</div>
-      }
-    </>
-  );
+  return <>{type === Color.红色 ? <div>红色</div> : <div>蓝色</div>}</>;
 };
