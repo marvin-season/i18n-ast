@@ -22,29 +22,34 @@ const format = async (code: string) => {
   });
 };
 
+const target = `
+const useConfigData = () => {
+  return {
+    name: "张三",
+    age: 18,
+  };
+};
+
+const useConfig = () => {
+  const config = useConfigData();
+  return <>
+      {config.name}
+    </>;
+}
+`
 const code = `
 
-function useApp2() {
-  return ""
+const config = {
+  name: '张三',
+  age: 18
 }
 
-function useName2() {
-  return "hi"
+const useConfig = () => {
+  return <>
+      {config.name}
+    </>;
 }
 
-const useApp = () => {
-  return ""
-}
-
-  const useName = () => "hi";
-function Demo2() {
-return <>{'你好'}</>;
-
-}
-
-  const Demo = () => {
-    return <>{'你好'}</>;
-  };
 `;
 
 // 使用 Babel parser 解析代码成 AST
