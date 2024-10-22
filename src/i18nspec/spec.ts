@@ -9,7 +9,6 @@ const traverse = (babelTraverse as unknown as { default: typeof babelTraverse })
 const generate = (babelGenerate as unknown as { default: typeof babelGenerate })
   .default;
 
-
 const format = async (code: string) => {
   return await prettier.format(code, {
     parser: "babel",
@@ -24,22 +23,28 @@ const format = async (code: string) => {
 };
 
 const code = `
-    
-    
-export const getApp = () => {
-};
 
-export const useApp = () => {
-  return 
+function useApp2() {
+  return ""
 }
 
-export function getAge(){
-  return 18;
+function useName2() {
+  return "hi"
 }
 
-export function useAge(){
-  return 18;
+const useApp = () => {
+  return ""
 }
+
+  const useName = () => "hi";
+function Demo2() {
+return <>{'你好'}</>;
+
+}
+
+  const Demo = () => {
+    return <>{'你好'}</>;
+  };
 `;
 
 // 使用 Babel parser 解析代码成 AST
@@ -65,25 +70,71 @@ traverse(ast, {
     // path.replaceWith(types.stringLiteral(value + ' - i18n'));
     path.skip();
   },
-  FunctionDeclaration(path) {
+  // 处理 ArrowFunctionExpression 的逻辑
+  ArrowFunctionExpression(path) {
     const { parent, node } = path;
-    const identifier = parent.id;
-    if (identifier?.name.startsWith("use")) {
-      node.body.body.unshift(
-        parser.parse("const { t } = useTranslation()").program.body[0],
-      );
+
+    // 判断父节点是否是一个变量声明
+    if (
+      parent.type === "VariableDeclarator" &&
+      parent.id.type === "Identifier"
+    ) {
+      const functionName = parent.id.name;
+
+      // 如果是 React 组件或 Hook，插入 useTranslation
+      if (isComponentOrHook(functionName)) {
+        insertUseTranslation(path, node);
+      }
     }
   },
 
-  ArrowFunctionExpression(path) {
-    const { parent, node } = path;
-    const identifier = parent.id;
-    if (identifier?.name.startsWith("use")) {
-      node.body.body.unshift(
-        parser.parse("const { t } = useTranslation()").program.body[0],
-      );
+  // 处理 FunctionDeclaration 的逻辑
+  FunctionDeclaration(path) {
+    const { node } = path;
+
+    // 获取函数名
+    const functionName = node.id.name;
+
+    // 如果是 React 组件或 Hook，插入 useTranslation
+    if (isComponentOrHook(functionName)) {
+      insertUseTranslation(path, node);
     }
   },
+  // ArrowFunctionExpression(path) {
+  //   const { parent, node } = path;
+  //
+  //   // 判断父节点是否是一个变量声明
+  //   if (parent.type === 'VariableDeclarator' && parent.id.type === 'Identifier') {
+  //     const functionName = parent.id.name;
+  //
+  //     // 判断是否是 React 组件或 Hook
+  //     const isComponent = /^[A-Z]/.test(functionName);  // React 组件通常以大写字母开头
+  //     const isHook = /^use[A-Z]/.test(functionName);    // Hook 以 "use" 开头
+  //
+  //     if (isComponent || isHook) {
+  //       // 创建 const { t } = useTranslation(); 语句
+  //       const tImport = types.variableDeclaration('const', [
+  //         types.variableDeclarator(
+  //           types.objectPattern([
+  //             types.objectProperty(types.identifier('t'), types.identifier('t'), false, true)
+  //           ]),
+  //           types.callExpression(types.identifier('useTranslation'), [])
+  //         )
+  //       ]);
+  //
+  //       // 插入到函数体中
+  //       if (node.body.type === 'BlockStatement') {
+  //         // 如果函数体是大括号包裹的块级语句
+  //         node.body.body.unshift(tImport);
+  //       } else {
+  //         // 如果是单个表达式，则转换为 BlockStatement 并插入
+  //         const returnStatement = types.returnStatement(node.body);
+  //         node.body = types.blockStatement([tImport, returnStatement]);
+  //       }
+  //     }
+  //   }
+  // },
+
   Program(path) {
     const { node } = path;
     node?.body?.unshift(
@@ -104,3 +155,38 @@ const { code: output } = generate(ast, { jsescOption: { minimal: true } });
 
 // 使用 Prettier 格式化输出
 console.log(await format(output));
+
+// 插入 useTranslation 逻辑的通用函数
+function insertUseTranslation(path, node) {
+  // 创建 const { t } = useTranslation(); 语句
+  const tImport = types.variableDeclaration("const", [
+    types.variableDeclarator(
+      types.objectPattern([
+        types.objectProperty(
+          types.identifier("t"),
+          types.identifier("t"),
+          false,
+          true,
+        ),
+      ]),
+      types.callExpression(types.identifier("useTranslation"), []),
+    ),
+  ]);
+
+  // 插入到函数体中
+  if (node.body.type === "BlockStatement") {
+    // 如果函数体是大括号包裹的块级语句
+    node.body.body.unshift(tImport);
+  } else {
+    // 如果是单个表达式，则转换为 BlockStatement 并插入
+    const returnStatement = types.returnStatement(node.body);
+    node.body = types.blockStatement([tImport, returnStatement]);
+  }
+}
+
+// 判断是否是 React 组件或 Hook
+function isComponentOrHook(functionName: string) {
+  const isComponent = /^[A-Z]/.test(functionName); // React 组件通常以大写字母开头
+  const isHook = /^use[A-Z]/.test(functionName); // Hook 以 "use" 开头
+  return isComponent || isHook;
+}
