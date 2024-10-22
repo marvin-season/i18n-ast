@@ -70,7 +70,7 @@ if (collectedVars.length > 0) {
 
   useDataDeclaration = types.variableDeclaration("const", [
     types.variableDeclarator(
-      types.identifier("useConfigData"),
+      types.identifier("useHook"),
       types.arrowFunctionExpression(
         [],
         types.blockStatement([

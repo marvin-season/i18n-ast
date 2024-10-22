@@ -1,4 +1,4 @@
-const useConfigData = () => {
+const useHook = () => {
   const config = {
     name: "张三",
     age: 18
