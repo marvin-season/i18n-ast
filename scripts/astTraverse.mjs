@@ -128,7 +128,7 @@ export default function astTraverse(ast, id, translationRecords) {
         );
         return;
       } else {
-        path.replaceWithSourceString(`t("ask-and-learn.${key}")`);
+        path.replaceWithSourceString(`t("common.${key}")`);
       }
       path.skip();
     },

@@ -1,17 +1,14 @@
-import { languages } from '../utils';
-import React from 'react';
-import i18n from 'i18next';
+import { languages } from "../utils";
+import React from "react";
+import i18n from "i18next";
 
 export const I18nSwitcher = () => {
   return (
-    <div className={'fixed z-10'}>
+    <div className={"fixed z-10"}>
       <select
         defaultValue={i18n.resolvedLanguage}
         onChange={async (evt) => {
-          location.reload();
-          setTimeout(() => {
-             i18n.changeLanguage(evt.target.value);
-          });
+          await i18n.changeLanguage(evt.target.value);
         }}
       >
         {languages.map((lng) => (
@@ -21,7 +18,7 @@ export const I18nSwitcher = () => {
             label={lng.name}
             style={{
               fontWeight:
-                i18n.resolvedLanguage === lng.value ? 'bolder' : 'normal',
+                i18n.resolvedLanguage === lng.value ? "bolder" : "normal",
             }}
           />
         ))}

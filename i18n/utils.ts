@@ -2,11 +2,11 @@ import data from './languages.json';
 
 const loadLangResources = async (lang: string) => {
 
-  const chat = await import(`./${lang}/chat.ts`);
+  const common = await import(`./${lang}/common.ts`);
 
   return {
     translation: {
-      chat: chat.default,
+      common: common.default,
     },
   };
 };
