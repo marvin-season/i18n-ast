@@ -1,5 +1,4 @@
 {
-  "files": [],
   "compilerOptions": {
     "allowJs": true,
     "target": "ES2020",
