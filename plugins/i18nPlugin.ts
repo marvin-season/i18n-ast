@@ -6,9 +6,7 @@ import generate from "@babel/generator";
 import * as fs from "node:fs";
 
 const isValid = (id: string) => {
-  return (
-    id.match(/\.(tsx|ts)$/) && id.match(/.*src\/.*/)
-  );
+  return id.match(/\.(tsx|ts)$/) && id.match(/.*src\/.*/);
 };
 
 export const i18nPlugin: () => PluginOption = () => {
@@ -19,10 +17,10 @@ export const i18nPlugin: () => PluginOption = () => {
     name: "i18n",
     enforce: "pre",
     config: (_, { command }) => {
-      isBuild = command === 'build';
+      isBuild = command === "build";
     },
     transform(code, id) {
-      if (!isBuild || !isValid(id)) {
+      if (!isValid(id)) {
         return { code };
       }
 
@@ -41,11 +39,15 @@ export const i18nPlugin: () => PluginOption = () => {
           minimal: true,
         },
       });
-      fs.writeFileSync(
-        "./translationRecords.json",
-        JSON.stringify(translationRecords, null, 2),
-        "utf-8",
-      );
+      if (isBuild) {
+        fs.writeFileSync(
+          "./translationRecords.json",
+          JSON.stringify(translationRecords, null, 2),
+          "utf-8",
+        );
+      }
+
+      return output;
     },
   };
 };
