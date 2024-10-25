@@ -6,6 +6,8 @@ const traverse = babelTraverse.default;
 
 const includesChinese = (v) => /[\u4e00-\u9fa5]+/g.test(v);
 
+const i18nImportModules = ["react-i18next", "i18next"];
+
 function insertUseTranslation(path, node) {
   // 创建 const { t } = useTranslation(); 语句
   const tImport = types.variableDeclaration("const", [
@@ -163,16 +165,24 @@ export default function astTraverse(ast, id, translationRecords) {
     },
     Program(path) {
       const { node } = path;
-      node?.body?.unshift(
-        ...parser
-          .parse(
-            "import { useTranslation } from 'react-i18next';\nimport {t} from 'i18next';",
-            {
-              sourceType: "module",
-            },
-          )
-          .program.body.slice(0, 2),
+      const importDeclarations = node.body?.filter(
+        (item) => item.type === "ImportDeclaration",
       );
+      const find = importDeclarations?.find((item) =>
+        i18nImportModules.includes(item.source.value),
+      );
+      if (!find) {
+        node?.body?.unshift(
+          ...parser
+            .parse(
+              "import { useTranslation } from 'react-i18next';\nimport {t} from 'i18next';",
+              {
+                sourceType: "module",
+              },
+            )
+            .program.body.slice(0, 2),
+        );
+      }
     },
   });
 }
