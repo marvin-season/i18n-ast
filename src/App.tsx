@@ -1,11 +1,10 @@
-import { useTranslation } from "react-i18next";
-import { Demo } from "./demo/Demo.tsx";
+import Counter from "./components/Counter.tsx";
 
 function App() {
-  const { t } = useTranslation();
   return (
     <>
-      <Demo />
+      <div>{"你好"}</div>
+      <Counter />
     </>
   );
 }

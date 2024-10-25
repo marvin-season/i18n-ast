@@ -1,0 +1,22 @@
+[
+  {
+    "key": "$App0",
+    "text": "你好",
+    "en": "你好_en"
+  },
+  {
+    "key": "$components$Counter0",
+    "text": "当前数字:",
+    "en": "当前数字:_en"
+  },
+  {
+    "key": "$components$Counter1",
+    "text": "增加",
+    "en": "增加_en"
+  },
+  {
+    "key": "$components$Counter2",
+    "text": "减少",
+    "en": "减少_en"
+  }
+]

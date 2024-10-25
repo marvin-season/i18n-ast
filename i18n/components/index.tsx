@@ -1,9 +1,10 @@
 import { languages } from "../utils";
 import React from "react";
-import i18n, { t } from "i18next";
+import i18n from "i18next";
+
 export const I18nSwitcher = () => {
   return (
-    <>
+    <div className={"fixed z-10"}>
       <select
         defaultValue={i18n.resolvedLanguage}
         onChange={async (evt) => {
@@ -22,6 +23,6 @@ export const I18nSwitcher = () => {
           />
         ))}
       </select>
-    </>
+    </div>
   );
 };

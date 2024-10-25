@@ -1,7 +1,9 @@
-import i18n from "i18next";
+import i18n, { Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
-import { resources } from "./resources";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { getResources } from "./utils";
+
+const resources: Resource = await getResources();
 
 i18n
   // 检测用户当前使用的语言
@@ -12,12 +14,12 @@ i18n
   // 初始化 i18next
   // 配置参数的文档: https://www.i18next.com/overview/configuration-options
   .init({
-    debug: false,
+    debug: true,
     fallbackLng: "zh",
     interpolation: {
       escapeValue: false,
     },
-    lng: "zh",
+    lng: localStorage.getItem("i18nextLng") as string,
     resources,
   });
 
