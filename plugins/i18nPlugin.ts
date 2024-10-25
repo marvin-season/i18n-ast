@@ -5,10 +5,9 @@ import astTraverse from "../scripts/astTraverse.mjs";
 import generate from "@babel/generator";
 import * as fs from "node:fs";
 
-console.log(astTraverse);
 const isValid = (id: string) => {
   return (
-    id.match(/\.(tsx|ts)$/) && id.match(/.*src\/(components|pages|hooks).*/)
+    id.match(/\.(tsx|ts)$/) && id.match(/.*src\/(components|pages|hooks|.+\.(tsx|ts)).*/)
   );
 };
 
@@ -19,6 +18,9 @@ export const i18nPlugin: () => PluginOption = () => {
   return {
     name: "i18n",
     enforce: "pre",
+    config: (_, { command }) => {
+      isBuild = command === 'build';
+    },
     transform(code, id) {
       if (!isBuild || !isValid(id)) {
         return { code };
@@ -39,7 +41,11 @@ export const i18nPlugin: () => PluginOption = () => {
           minimal: true,
         },
       });
-      // fs.writeFileSync(id, output.code, "utf-8");
+      fs.writeFileSync(
+        "./translationRecords.json",
+        JSON.stringify(translationRecords, null, 2),
+        "utf-8",
+      );
     },
   };
 };
