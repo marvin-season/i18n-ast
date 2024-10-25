@@ -1,21 +1,10 @@
 import parser from "@babel/parser";
 import babelTraverse from "@babel/traverse";
-import babelGenerate from "@babel/generator";
 import types from "@babel/types";
-import path from "path";
 
 const traverse = babelTraverse.default;
-const generate = babelGenerate.default;
 
-const csvFilePath = path.relative(process.cwd(), "translation_keys.csv");
 const includesChinese = (v) => /[\u4e00-\u9fa5]+/g.test(v);
-const isValid = (id) => {
-  return (
-    id.match(/\.(tsx|ts)$/) &&
-    id.match(/.*src\/(components|pages|hooks).*/) &&
-    !id.match(/(NavBar|WorkFlowPage)/)
-  );
-};
 
 function insertUseTranslation(path, node) {
   // 创建 const { t } = useTranslation(); 语句
@@ -51,7 +40,7 @@ function isComponentOrHook(functionName) {
   return isComponent || isHook;
 }
 
-function astTraverse(ast, id, translationRecords) {
+export default function astTraverse(ast, id, translationRecords) {
   let index = 0;
   // 将匹配到的类型转换为 StringLiteral,在 StringLiteral中统一对中文进行处理
   traverse(ast, {
