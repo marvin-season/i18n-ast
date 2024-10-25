@@ -7,7 +7,7 @@ import * as fs from "node:fs";
 
 const isValid = (id: string) => {
   return (
-    id.match(/\.(tsx|ts)$/) && id.match(/.*src\/(components|pages|hooks|.+\.(tsx|ts)).*/)
+    id.match(/\.(tsx|ts)$/) && id.match(/.*src\/.*/)
   );
 };
 
