@@ -1,7 +1,6 @@
-import data from './languages.json';
+import data from "./languages.json";
 
 const loadLangResources = async (lang: string) => {
-
   const common = await import(`./${lang}/common.ts`);
 
   return {

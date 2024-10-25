@@ -2,4 +2,4 @@
 
 ```shell
 pnpm run i18n-setup
-````
+```

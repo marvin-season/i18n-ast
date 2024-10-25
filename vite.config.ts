@@ -7,5 +7,5 @@ export default defineConfig({
   plugins: [i18nPlugin(), react()],
   build: {
     target: "esnext",
-  }
+  },
 });

@@ -2,5 +2,5 @@ import translation from "./translation.json";
 
 export default {
   ...translation,
-  demo: 'demo'
+  demo: "demo",
 };

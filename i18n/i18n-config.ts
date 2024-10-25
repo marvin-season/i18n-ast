@@ -1,7 +1,7 @@
-import i18n, { Resource } from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { getResources } from './utils';
+import i18n, { Resource } from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import { getResources } from "./utils";
 
 const resources: Resource = await getResources();
 
@@ -15,11 +15,11 @@ i18n
   // 配置参数的文档: https://www.i18next.com/overview/configuration-options
   .init({
     debug: true,
-    fallbackLng: 'zh',
+    fallbackLng: "zh",
     interpolation: {
       escapeValue: false,
     },
-    lng: localStorage.getItem('i18nextLng') as string,
+    lng: localStorage.getItem("i18nextLng") as string,
     resources,
   });
 

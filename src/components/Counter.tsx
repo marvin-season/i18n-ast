@@ -21,11 +21,9 @@ const Counter: React.FC<CounterProps> = ({ initialCount = 0 }) => {
     <div style={{ marginTop: "20px" }}>
       <h2>当前数字: {count}</h2>
       <button onClick={increment} style={{ marginRight: "5px" }}>
-        {'增加'}
+        {"增加"}
       </button>
-      <button onClick={decrement}>
-        {'减少'}
-      </button>
+      <button onClick={decrement}>{"减少"}</button>
     </div>
   );
 };
