@@ -6,24 +6,38 @@ const traverse = babelTraverse.default;
 
 const includesChinese = (v) => /[\u4e00-\u9fa5]+/g.test(v);
 
-function insertUseTranslation(path, node) {
-  // 创建 const { t } = useTranslation(); 语句
-  const tImport = types.variableDeclaration("const", [
-    types.variableDeclarator(
-      types.objectPattern([
-        types.objectProperty(
-          types.identifier("t"),
-          types.identifier("t"),
-          false,
-          true,
-        ),
-      ]),
-      types.callExpression(types.identifier("useTranslation"), []),
-    ),
-  ]);
+const i18nImportModules = ["react-i18next", "i18next"];
+const i18nCalleeName = "useTranslation";
 
+function insertUseTranslation(path, node) {
   // 插入到函数体中
   if (node.body.type === "BlockStatement") {
+    const find = node.body.body.find((item) => {
+      return item.declarations?.some((declaration) => {
+        return (
+          declaration.type === "VariableDeclarator" &&
+          declaration.init.type === "CallExpression" &&
+          declaration.init.callee.name === i18nCalleeName
+        );
+      });
+    });
+    if (find) {
+      return;
+    }
+    // 创建 const { t } = useTranslation(); 语句
+    const tImport = types.variableDeclaration("const", [
+      types.variableDeclarator(
+        types.objectPattern([
+          types.objectProperty(
+            types.identifier("t"),
+            types.identifier("t"),
+            false,
+            true,
+          ),
+        ]),
+        types.callExpression(types.identifier("useTranslation"), []),
+      ),
+    ]);
     // 如果函数体是大括号包裹的块级语句
     node.body.body.unshift(tImport);
   } else {
@@ -163,16 +177,24 @@ export default function astTraverse(ast, id, translationRecords) {
     },
     Program(path) {
       const { node } = path;
-      node?.body?.unshift(
-        ...parser
-          .parse(
-            "import { useTranslation } from 'react-i18next';\nimport {t} from 'i18next';",
-            {
-              sourceType: "module",
-            },
-          )
-          .program.body.slice(0, 2),
+      const importDeclarations = node.body?.filter(
+        (item) => item.type === "ImportDeclaration",
       );
+      const find = importDeclarations?.find((item) =>
+        i18nImportModules.includes(item.source.value),
+      );
+      if (!find) {
+        node?.body?.unshift(
+          ...parser
+            .parse(
+              "import { useTranslation } from 'react-i18next';\nimport {t} from 'i18next';",
+              {
+                sourceType: "module",
+              },
+            )
+            .program.body.slice(0, 2),
+        );
+      }
     },
   });
 }
