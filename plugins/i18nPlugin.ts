@@ -40,9 +40,25 @@ export const i18nPlugin: () => PluginOption = () => {
         },
       });
       if (isBuild) {
+        const { en, zh } = translationRecords.reduce(
+          (prev, cur) => {
+            prev.en[cur.key] = cur.en;
+            prev.zh[cur.key] = cur.text;
+            return prev;
+          },
+          {
+            en: {} as Record<string, string>,
+            zh: {} as Record<string, string>,
+          },
+        );
         fs.writeFileSync(
-          "./translationRecords.json",
-          JSON.stringify(translationRecords, null, 2),
+          "i18n/en/translation.json",
+          JSON.stringify(en, null, 2),
+          "utf-8",
+        );
+        fs.writeFileSync(
+          "i18n/zh/translation.json",
+          JSON.stringify(zh, null, 2),
           "utf-8",
         );
       }

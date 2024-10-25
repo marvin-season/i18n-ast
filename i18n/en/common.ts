@@ -1,4 +1,6 @@
-const translation = {
-};
+import translation from "./translation.json";
 
-export default translation;
+export default {
+  ...translation,
+  demo: 'demo'
+};
