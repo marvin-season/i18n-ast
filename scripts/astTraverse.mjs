@@ -175,6 +175,28 @@ export default function astTraverse(ast, id, translationRecords) {
         insertUseTranslation(path, node);
       }
     },
+    // record the location of the string
+    JSXElement(path) {
+      const { node } = path;
+      // 添加位置信息到data-location
+      node.openingElement.attributes.push(
+        // file path
+        types.jsxAttribute(
+          types.jsxIdentifier("data-path"),
+          types.stringLiteral(id),
+        ),
+        // line
+        types.jsxAttribute(
+          types.jsxIdentifier("data-line"),
+          types.stringLiteral(String(node.loc.start.line)),
+        ),
+        // col
+        types.jsxAttribute(
+          types.jsxIdentifier("data-column"),
+          types.stringLiteral(String(node.loc.start.column)),
+        ),
+      );
+    },
     Program(path) {
       const { node } = path;
       const importDeclarations = node.body?.filter(
